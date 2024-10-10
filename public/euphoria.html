@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Euphoria Chatbot</title>
+    <style>
+        /* Add some basic styling */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #chat-container {
+            width: 400px;
+            margin: 50px auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        #messages {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .message {
+            padding: 5px;
+        }
+
+        .user {
+            text-align: right;
+            color: blue;
+        }
+
+        .bot {
+            text-align: left;
+            color: green;
+        }
+
+        #user-input {
+            width: 80%;
+            padding: 10px;
+        }
+
+        #send-btn {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chat-container">
+    <h2>Euphoria Chatbot</h2>
+    <div id="messages">
+        <!-- Chat messages will appear here -->
+    </div>
+    <input type="text" id="user-input" placeholder="Type your message here..." />
+    <button id="send-btn">Send</button>
+</div>
+
+<script>
+    const sendBtn = document.getElementById('send-btn');
+    const userInput = document.getElementById('user-input');
+    const messagesContainer = document.getElementById('messages');
+
+    // Function to add a message to the chat window
+    function addMessage(message, className) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', className);
+        messageDiv.textContent = message;
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;  // Auto-scroll to the bottom
+    }
+
+    // Event listener for the "Send" button
+    sendBtn.addEventListener('click', () => {
+        const userMessage = userInput.value;
+        if (userMessage.trim() !== '') {
+            // Add the user's message to the chat window
+            addMessage(userMessage, 'user');
+
+            // Send the user's message to the server
+            fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: userMessage })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Add the bot's response to the chat window
+                addMessage(data.response, 'bot');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                addMessage("Error: Couldn't get a response from the server.", 'bot');
+            });
+
+            // Clear the input field
+            userInput.value = '';
+        }
+    });
+
+    // Optional: Enable "Enter" key to send the message
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendBtn.click();
+        }
+    });
+</script>
+
+</body>
+</html>
