@@ -36,8 +36,8 @@ df['tag'].unique()
 import plotly.graph_objects as go
 
 intent_counts = df['tag'].value_counts()
-fig = go.Figure(data=[go.Bar(x=intent_counts.index, y=intent_counts.values)])
-fig.update_layout(title='Distribution of Intents', xaxis_title='Intents', yaxis_title='Count')
+#fig = go.Figure(data=[go.Bar(x=intent_counts.index, y=intent_counts.values)])
+#fig.update_layout(title='Distribution of Intents', xaxis_title='Intents', yaxis_title='Count')
 #fig.show()
 
 df['pattern_count'] = df['patterns'].apply(lambda x: len(x))
@@ -45,10 +45,10 @@ df['response_count'] = df['responses'].apply(lambda x: len(x))
 avg_pattern_count = df.groupby('tag')['pattern_count'].mean()
 avg_response_count = df.groupby('tag')['response_count'].mean()
 
-fig = go.Figure()
-fig.add_trace(go.Bar(x=avg_pattern_count.index, y=avg_pattern_count.values, name='Average Pattern Count'))
-fig.add_trace(go.Bar(x=avg_response_count.index, y=avg_response_count.values, name='Average Response Count'))
-fig.update_layout(title='Pattern and Response Analysis', xaxis_title='Intents', yaxis_title='Average Count')
+#fig = go.Figure()
+#fig.add_trace(go.Bar(x=avg_pattern_count.index, y=avg_pattern_count.values, name='Average Pattern Count'))
+#fig.add_trace(go.Bar(x=avg_response_count.index, y=avg_response_count.values, name='Average Response Count'))
+#fig.update_layout(title='Pattern and Response Analysis', xaxis_title='Intents', yaxis_title='Average Count')
 #fig.show()
 
 from sklearn.model_selection import train_test_split
@@ -83,14 +83,14 @@ labels = list(report.keys())
 evaluation_metrics = ['precision', 'recall', 'f1-score']
 metric_scores = {metric: [report[label][metric] for label in labels if label in report] for metric in evaluation_metrics}
 
-fig = go.Figure()
-for metric in evaluation_metrics:
-    fig.add_trace(go.Bar(name=metric, x=labels, y=metric_scores[metric]))
+#fig = go.Figure()
+#for metric in evaluation_metrics:
+   # fig.add_trace(go.Bar(name=metric, x=labels, y=metric_scores[metric]))
 
-fig.update_layout(title='Intent Prediction Model Performance',
-                  xaxis_title='Intent',
-                  yaxis_title='Score',
-                  barmode='group')
+#fig.update_layout(title='Intent Prediction Model Performance',
+                  #xaxis_title='Intent',
+                  #yaxis_title='Score',
+                  #barmode='group')
 
 #fig.show()
 
