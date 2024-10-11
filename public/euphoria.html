@@ -85,16 +85,17 @@
             margin-right: 10px;
         }
 
-        #send-btn {
+        #send-btn, #mic-btn {
             background-color: #25D366;
             color: white;
             border: none;
             padding: 10px 15px;
             border-radius: 50%;
             cursor: pointer;
+            margin-left: 5px;
         }
 
-        #send-btn:hover {
+        #send-btn:hover, #mic-btn:hover {
             background-color: #128C7E;
         }
 
@@ -118,11 +119,13 @@
     <div id="user-input-container">
         <input type="text" id="user-input" placeholder="Type your message here..." />
         <button id="send-btn">Send</button>
+        <button id="mic-btn">&#127908;</button> <!-- Microphone button -->
     </div>
 </div>
 
 <script>
     const sendBtn = document.getElementById('send-btn');
+    const micBtn = document.getElementById('mic-btn');
     const userInput = document.getElementById('user-input');
     const messagesContainer = document.getElementById('messages');
 
@@ -170,6 +173,30 @@
         if (e.key === 'Enter') {
             sendBtn.click();
         }
+    });
+
+    // Voice recognition using Web Speech API
+    micBtn.addEventListener('click', () => {
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'en-US';  // Set the language
+
+        recognition.onstart = () => {
+            console.log('Voice recognition started. Speak now.');
+        };
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            console.log('Voice input:', transcript);
+            userInput.value = transcript;  // Fill the text input with voice data
+            sendBtn.click();  // Automatically send the message
+        };
+
+        recognition.onerror = (event) => {
+            console.error('Error during voice recognition:', event.error);
+            addMessage("Error: Couldn't process voice input.", 'bot');
+        };
+
+        recognition.start();  // Start listening
     });
 </script>
 
