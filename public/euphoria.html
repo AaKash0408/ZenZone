@@ -5,48 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Euphoria Chatbot</title>
     <style>
-        /* Add some basic styling */
+        /* Basic styling */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
 
         #chat-container {
             width: 400px;
-            margin: 50px auto;
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 8px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h2 {
+            background-color: #075E54;
+            color: white;
+            padding: 15px;
+            margin: 0;
+            text-align: center;
         }
 
         #messages {
-            height: 300px;
+            flex: 1;
+            padding: 15px;
+            background-color: #e5ddd5;
             overflow-y: auto;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
         }
 
         .message {
-            padding: 5px;
+            max-width: 75%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 10px;
+            line-height: 1.4;
+            word-wrap: break-word;
         }
 
         .user {
+            background-color: #DCF8C6;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
             text-align: right;
-            color: blue;
         }
 
         .bot {
+            background-color: #fff;
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
             text-align: left;
-            color: green;
+        }
+
+        #user-input-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            background-color: #f0f0f0;
         }
 
         #user-input {
-            width: 80%;
+            flex: 1;
+            border: none;
             padding: 10px;
+            border-radius: 20px;
+            background-color: #fff;
+            box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+            margin-right: 10px;
         }
 
         #send-btn {
-            padding: 10px;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #send-btn:hover {
+            background-color: #128C7E;
+        }
+
+        #user-input:focus {
+            outline: none;
+        }
+
+        /* Ensure the chat window auto-scrolls */
+        #messages {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
@@ -57,8 +115,10 @@
     <div id="messages">
         <!-- Chat messages will appear here -->
     </div>
-    <input type="text" id="user-input" placeholder="Type your message here..." />
-    <button id="send-btn">Send</button>
+    <div id="user-input-container">
+        <input type="text" id="user-input" placeholder="Type your message here..." />
+        <button id="send-btn">Send</button>
+    </div>
 </div>
 
 <script>
@@ -72,7 +132,7 @@
         messageDiv.classList.add('message', className);
         messageDiv.textContent = message;
         messagesContainer.appendChild(messageDiv);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;  // Auto-scroll to the bottom
+        messagesContainer.scrollTop = messagesContainer.scrollHeight; // Auto-scroll to the bottom
     }
 
     // Event listener for the "Send" button
